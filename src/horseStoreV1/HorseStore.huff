@@ -1,8 +1,6 @@
 // send calldata -> function dispatch -> function
-
 //Entry point in huff contract is called main
 // macro to define the entry point
-
 #define macro MAIN() = takes(0) returns(0) {
     //LEts find function selector
     //0x00 // [0]<- he know this is push opcodes we dont need to write PUSH0
@@ -14,38 +12,26 @@
      //0xe0    // [0xe0 ,calldata (32 bytes)]
      //SHR     // func selector]
      0x00 calldataload 0xE0   // [func selector, calldata]
-
-
      //jump -> function data associatedd with thee selector
-
     //0xcdfead2e == update
     //0xe026c017 == read
      dup1          // [0xcdfead2e, 0xcdfead2e]
      0xcdfead2e    //  [0xcdfead2e, funn selector, 0xcdfead2e]
      eq             // [true if fun selector matches, false if not]
-
      //jump to update function cide if true
-
      updateJump         //update horse number program counter, true/false , 0xcdfead2e
      jumpi              // [0xcdfead2e, 0xcdfead2e] -> updateJump
-
     // read function code
-
     0xe026c017
     eq
     readJump
     jumpi
-
      updateJump:
         SET_NUMBER_OF_HORSE()       //linne 31,32 can be done by ``` jumpdest```
     //ouput -> 600f8060093d393df35f3560e063cdfead2e1461000e575b
     //runtime_output -> 5f3560e063cdfead2e1461000e575b
-
     readJump:
         GET_NUMBER_OF_HORSE()
-
 }
-
 #define macro SET_NUMBER_OF_HORSE() = takes(0) returns(0){}
-
 #define macro GET_NUMBER_OF_HORSE() = takes(0) returns(0){}
